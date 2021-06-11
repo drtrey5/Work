@@ -189,7 +189,7 @@ print(effVsOEE_data.corr()[["%OEE"]])
 #This section of code could definitely use more work so as to improve the visibility of the x-axis.
 #Possibly look to group numbers of operators and then begin to average them for the all time view.
 
-import seaborn as sns
+#import seaborn as sns
 import matplotlib.pyplot as plt
 
 #fig, axs = plt.subplots(ncols=1, figsize=(30,5))

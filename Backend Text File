@@ -1,0 +1,141 @@
+#This section of code takes filler sections of the excel spreadsheet from both tabs and removes them
+
+dataOEE_Page.replace('x', np.nan, inplace= True)
+dataTS_Page.replace('x', np.nan, inplace = True)
+
+dataOEE_Page.drop(labels = 0, axis = 0, inplace = True)
+dataTS_Page.drop(labels = 0, axis = 0, inplace = True)
+
+#print(dataOEE_Page)
+
+#Names the indexes for the columns of the dataframes
+
+dataOEE_Page.columns = ['OEE_Date', 'Lbs Produced', '%OEE', 'Labor Hours', 'Lb/Man Hour', 'Pails Filled', 'Pails/Man Hour', 'Removal', 'Week of', 'Weekly %OEE']
+dataTS_Page.columns = ['TS_Date', 'Num of Ops', 'Total Minutes', 'Maintenance', 'Making Powder', 'Making Prepolymer', 'Startup', 'Breaks', 'LBS Produced', 'Pails Filled', 'Unnamed', 'Efficiency', 'Unnamed', 'Unnamed', 'Unnamed']
+
+#dataOEE_Page
+
+#This section trims the fat off the data set and removes entries that are effectively empty from both the OEE and Efficiency
+#tab. 
+
+dataTS_Page = dataTS_Page.dropna(how = 'all', axis = 1)
+dataTS_Page = dataTS_Page.dropna(subset=['Num of Ops'])
+
+dataOEE_Page = dataOEE_Page.dropna(subset=['Labor Hours'])
+dataOEE_Page = dataOEE_Page.dropna(how = 'all', axis = 1)
+
+#dataOEE_Page
+
+#This section of code takes the first 13 entries of the Twin Screw OEE tab of the excel sheet and removes them from the data pool
+#This effectively removes the logic error that occurred due to the lack of the # of operators on the - tab, and realigns the dates
+#Following this section, data that doesn't have a matching pair datewise will be removed from each respective dataframe
+
+dataOEE_Page.drop(dataOEE_Page.index[range(0,13)], axis = 0, inplace =True)
+
+dataOEE_Page = dataOEE_Page.reset_index(drop = True)
+dataTS_Page = dataTS_Page.reset_index(drop = True)
+
+#Using the dates from the trimmed lists, then comparing them to make a condensed list of data points
+#This resultant list should contain all eligible data points
+#From this comparison dataframe we should be able to pull data that correlates directly
+#Should only be done in order to compare data cross sheet due to lack of variables
+
+dateCheck = [dataOEE_Page['OEE_Date'], dataTS_Page['TS_Date']] #Makes a list of the columns from either dataFrame
+dateCheck = pd.concat(dateCheck, axis=1, ignore_index=False, verify_integrity=False) #Combines the dataCheck list into a dataFrame
+dateCheck['Removal_OEE'] = np.nan #Adds columns of nan values
+dateCheck['Removal_TS'] = np.nan 
+#dateCheck.columns = ['OEE_Date', 'TS_Date','Removal_OEE','Removal_TS'] #Renames the columns of the dataframe
+
+#Checks whether or not the dates correspond to each other throughout either column, result is recorded in respective removal column
+#Recorded as True if there is matching pair, False if there isn't
+dateCheck['Removal_OEE'] = (dateCheck['OEE_Date'].isin(dateCheck['TS_Date']))
+dateCheck['Removal_TS'] = (dateCheck['TS_Date'].isin(dateCheck['OEE_Date']))
+
+OEEindex = dateCheck[dateCheck['Removal_OEE'] == False].index #Identifies the exact index of the date cell needing removed
+TSindex = dateCheck[dateCheck['Removal_TS'] == False].index
+
+#print(OEEindex)
+#print(TSindex)
+
+#Drops erroneous cells from both data sets
+dataOEE_Page = dataOEE_Page.drop(OEEindex, inplace=False)
+dataTS_Page = dataTS_Page.drop(TSindex,inplace=False)
+
+dataOEE_Page = dataOEE_Page.reset_index(drop = True)
+dataTS_Page = dataTS_Page.reset_index(drop = True)
+
+
+# %%
+#This section will identify the percent values that are based as a decimal in the updated dataframes
+#From here the new data is passed down onto future methods for stronger correlations
+
+dataOEE_Page.loc[dataOEE_Page['%OEE'] < 1, '%OEE'] = dataOEE_Page['%OEE']*100
+dataTS_Page.loc[dataTS_Page['Efficiency'] < 1, 'Efficiency'] = dataTS_Page['Efficiency']*100
+
+
+# %%
+#This section will include data manipulations that are in accordance with the value of period
+#This will be to also organize data for the weekly and monthly values, won't display values from outside the month
+#Possibly make this a setting: Include last month, exclude last month
+
+testPeriod = 1
+testInput = [dataOEE_Page['%OEE'], dataTS_Page['Efficiency'], dataOEE_Page['OEE_Date'], dataTS_Page['TS_Date']]
+testInput = pd.concat(testInput, axis = 1, ignore_index = False)
+#testInput
+
+if testPeriod == 1:
+    print('')
+elif testPeriod == 7:
+    print('')
+elif testPeriod == 30:
+    print('')
+else:
+    print('Error: Resetting. Please attempt operation again.')
+    testPeriod = 1 
+
+
+# %%
+#This section of code effectively pairs the the %OEE numbers and Efficiency numbers with other vars to collect the data of both sets
+#Will be working to make the user have input on stuff like this to make it easier to use
+
+OEEdata = dataOEE_Page['%OEE']
+TS_PgData = dataTS_Page[['Num of Ops','Efficiency', 'Total Minutes']]
+#OEEdata
+#TS_PgData
+
+effVsOEE_data = [OEEdata, TS_PgData]
+effVsOEE_data = pd.concat(effVsOEE_data, axis=1, ignore_index=True, verify_integrity=False)
+
+effVsOEE_data.columns = ['%OEE', 'Num of Ops', 'Efficiency', "Total Minutes"]
+#effVsOEE_data = effVsOEE_data.sort_values(by = ['Num of Ops'])
+#effVsOEE_data
+
+#Assigns type data to the values in the columns, certain columns are uninterruptable due to the 
+
+dataOEE_Page = dataOEE_Page.astype({"Lbs Produced": np.float64, "%OEE": np.float64, "Labor Hours": np.float64, "Lb/Man Hour": np.float64, "Pails Filled": np.float64, "Pails/Man Hour": np.float64, 'Weekly %OEE': np.float64})
+dataTS_Page = dataTS_Page.astype({'Num of Ops': np.float64, 'Total Minutes': np.float64, 'Maintenance': np.float64, 'Efficiency': np.float64})
+effVsOEE_data = effVsOEE_data.astype({"Num of Ops": np.float64, "%OEE": np.float64, "Efficiency": np.float64, 'Total Minutes': np.float64})
+
+#This section attains attributes of the dataset: Average, correlation values, etc.
+#Will be changed to a method that can change to weekly, monthly, and yearly
+
+#Is a list of the values read from the files, just the averages and no index names are attached
+listNames = effVsOEE_data.columns.tolist()
+
+print(listNames)
+
+#Finds averages of all the values of the dataset
+for x in meanAllTimeCalc:
+    if x == meanAllTimeCalc[0]:
+        print("The average value of " + listNames[0] + " is: " + round(x, 3).astype('str') + '%')
+    elif x == meanAllTimeCalc[1]:
+        print("The average value of " + listNames[1] + " is: " + round(x, 2).astype('str'))
+    elif x == meanAllTimeCalc[2]:
+        print("The average value of " + listNames[2] + " is: " + round(x,3).astype('str') + '%')
+    else:
+        print("The average value of " + listNames[3] + " is: " + round(x,2).astype('str'))
+
+#Finds correlations between respective number of the sheet
+
+print(effVsOEE_data.corr()[["Efficiency"]])
+print(effVsOEE_data.corr()[["%OEE"]])
