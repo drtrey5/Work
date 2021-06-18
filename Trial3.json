@@ -26,7 +26,7 @@
  "cells": [
   {
    "cell_type": "code",
-   "execution_count": 36,
+   "execution_count": 26,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -49,7 +49,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 37,
+   "execution_count": 27,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -98,7 +98,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 38,
+   "execution_count": 28,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -149,11 +149,11 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 39,
+   "execution_count": 29,
    "metadata": {},
    "outputs": [],
    "source": [
-    "def narrowDates(df, date):\n",
+    "def narrowDates(df, date, userInput):\n",
     "\n",
     "    #Will act as test parameters to prepare method for true use\n",
     "    testDay = True #Will be the program default\n",
@@ -162,19 +162,19 @@
     "    testDate = pd.Timestamp(date + \" 00:00:00\")\n",
     "    daysInMonth = testDate.daysinmonth\n",
     "    beginningOfInterval = pd.Timestamp(2020)\n",
-    "    print(daysInMonth)\n",
-    "    userInput = 'Tier 3'\n",
+    "    #print(daysInMonth)\n",
+    "    #userInput = 'Tier 3'\n",
     "\n",
     "    \n",
     "    df['Date'] = pd.to_datetime(df['Date'])\n",
     "\n",
     "    #Basically decides how far back the date retrieval will go.\n",
-    "    global dateInterval\n",
+    "    #global dateInterval\n",
     "    if (userInput == \"Tier 2\"):\n",
-    "        dateInterval = 0\n",
+    "        #dateInterval = 0\n",
     "        beginningOfInterval = testDate\n",
     "    elif (userInput == 'Tier 3'):\n",
-    "        dateInterval = 7\n",
+    "        #dateInterval = 7\n",
     "        beginningOfInterval = testDate - pd.Timedelta(str(dateInterval) + ' day')\n",
     "    elif (userInput == 'Tier 5'): #If not month's end it will retrieve all prior data up to that point\n",
     "        beginningOfInterval = testDate.replace(day=1)\n",
@@ -182,10 +182,10 @@
     "    else:\n",
     "        print('System Error: Invalid selection')\n",
     "\n",
-    "    if (testDate in df['Date'].values):\n",
-    "        print (\"It's here\")\n",
-    "    else:\n",
-    "        print('Not in dataset')\n",
+    "    #if (testDate in df['Date'].values):\n",
+    "     #   print (\"It's here\")\n",
+    "    #else:\n",
+    "     #   print('Not in dataset')\n",
     "\n",
     "\n",
     "    #Will set index of the dataframe to that of the dates to be easily moved through and sorted by\n",
@@ -196,27 +196,14 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 40,
+   "execution_count": 30,
    "metadata": {},
    "outputs": [
     {
      "output_type": "stream",
-     "name": "stdout",
+     "name": "stderr",
      "text": [
-      "31\nIt's here\n"
-     ]
-    },
-    {
-     "output_type": "error",
-     "ename": "TclError",
-     "evalue": "unknown option \"-Lbs Produced\"",
-     "traceback": [
-      "\u001b[1;31m---------------------------------------------------------------------------\u001b[0m",
-      "\u001b[1;31mTclError\u001b[0m                                  Traceback (most recent call last)",
-      "\u001b[1;32m<ipython-input-40-ed4acd8dd66a>\u001b[0m in \u001b[0;36m<module>\u001b[1;34m\u001b[0m\n\u001b[0;32m     72\u001b[0m \u001b[1;33m\u001b[0m\u001b[0m\n\u001b[0;32m     73\u001b[0m \u001b[1;31m#Draws frame for datatable\u001b[0m\u001b[1;33m\u001b[0m\u001b[1;33m\u001b[0m\u001b[1;33m\u001b[0m\u001b[0m\n\u001b[1;32m---> 74\u001b[1;33m \u001b[0mdatatableFrame\u001b[0m \u001b[1;33m=\u001b[0m \u001b[0mtk\u001b[0m\u001b[1;33m.\u001b[0m\u001b[0mFrame\u001b[0m\u001b[1;33m(\u001b[0m\u001b[0mroot\u001b[0m\u001b[1;33m,\u001b[0m \u001b[0mtableData\u001b[0m\u001b[1;33m)\u001b[0m\u001b[1;33m\u001b[0m\u001b[1;33m\u001b[0m\u001b[0m\n\u001b[0m\u001b[0;32m     75\u001b[0m \u001b[0mdatatableFrame\u001b[0m\u001b[1;33m.\u001b[0m\u001b[0mgrid\u001b[0m\u001b[1;33m(\u001b[0m\u001b[0mrow\u001b[0m \u001b[1;33m=\u001b[0m \u001b[1;36m5\u001b[0m\u001b[1;33m,\u001b[0m \u001b[0mcolumn\u001b[0m \u001b[1;33m=\u001b[0m \u001b[1;36m0\u001b[0m\u001b[1;33m,\u001b[0m \u001b[0mcolumnspan\u001b[0m\u001b[1;33m=\u001b[0m\u001b[1;36m7\u001b[0m\u001b[1;33m,\u001b[0m \u001b[0msticky\u001b[0m \u001b[1;33m=\u001b[0m \u001b[1;34m'WE'\u001b[0m\u001b[1;33m)\u001b[0m\u001b[1;33m\u001b[0m\u001b[1;33m\u001b[0m\u001b[0m\n\u001b[0;32m     76\u001b[0m \u001b[1;33m\u001b[0m\u001b[0m\n",
-      "\u001b[1;32m~\\Anaconda3\\envs\\workenv\\lib\\tkinter\\__init__.py\u001b[0m in \u001b[0;36m__init__\u001b[1;34m(self, master, cnf, **kw)\u001b[0m\n\u001b[0;32m   3122\u001b[0m             \u001b[0mextra\u001b[0m \u001b[1;33m=\u001b[0m \u001b[1;33m(\u001b[0m\u001b[1;34m'-class'\u001b[0m\u001b[1;33m,\u001b[0m \u001b[0mcnf\u001b[0m\u001b[1;33m[\u001b[0m\u001b[1;34m'class'\u001b[0m\u001b[1;33m]\u001b[0m\u001b[1;33m)\u001b[0m\u001b[1;33m\u001b[0m\u001b[1;33m\u001b[0m\u001b[0m\n\u001b[0;32m   3123\u001b[0m             \u001b[1;32mdel\u001b[0m \u001b[0mcnf\u001b[0m\u001b[1;33m[\u001b[0m\u001b[1;34m'class'\u001b[0m\u001b[1;33m]\u001b[0m\u001b[1;33m\u001b[0m\u001b[1;33m\u001b[0m\u001b[0m\n\u001b[1;32m-> 3124\u001b[1;33m         \u001b[0mWidget\u001b[0m\u001b[1;33m.\u001b[0m\u001b[0m__init__\u001b[0m\u001b[1;33m(\u001b[0m\u001b[0mself\u001b[0m\u001b[1;33m,\u001b[0m \u001b[0mmaster\u001b[0m\u001b[1;33m,\u001b[0m \u001b[1;34m'frame'\u001b[0m\u001b[1;33m,\u001b[0m \u001b[0mcnf\u001b[0m\u001b[1;33m,\u001b[0m \u001b[1;33m{\u001b[0m\u001b[1;33m}\u001b[0m\u001b[1;33m,\u001b[0m \u001b[0mextra\u001b[0m\u001b[1;33m)\u001b[0m\u001b[1;33m\u001b[0m\u001b[1;33m\u001b[0m\u001b[0m\n\u001b[0m\u001b[0;32m   3125\u001b[0m \u001b[1;33m\u001b[0m\u001b[0m\n\u001b[0;32m   3126\u001b[0m \u001b[1;33m\u001b[0m\u001b[0m\n",
-      "\u001b[1;32m~\\Anaconda3\\envs\\workenv\\lib\\tkinter\\__init__.py\u001b[0m in \u001b[0;36m__init__\u001b[1;34m(self, master, widgetName, cnf, kw, extra)\u001b[0m\n\u001b[0;32m   2570\u001b[0m         \u001b[1;32mfor\u001b[0m \u001b[0mk\u001b[0m\u001b[1;33m,\u001b[0m \u001b[0mv\u001b[0m \u001b[1;32min\u001b[0m \u001b[0mclasses\u001b[0m\u001b[1;33m:\u001b[0m\u001b[1;33m\u001b[0m\u001b[1;33m\u001b[0m\u001b[0m\n\u001b[0;32m   2571\u001b[0m             \u001b[1;32mdel\u001b[0m \u001b[0mcnf\u001b[0m\u001b[1;33m[\u001b[0m\u001b[0mk\u001b[0m\u001b[1;33m]\u001b[0m\u001b[1;33m\u001b[0m\u001b[1;33m\u001b[0m\u001b[0m\n\u001b[1;32m-> 2572\u001b[1;33m         self.tk.call(\n\u001b[0m\u001b[0;32m   2573\u001b[0m             (widgetName, self._w) + extra + self._options(cnf))\n\u001b[0;32m   2574\u001b[0m         \u001b[1;32mfor\u001b[0m \u001b[0mk\u001b[0m\u001b[1;33m,\u001b[0m \u001b[0mv\u001b[0m \u001b[1;32min\u001b[0m \u001b[0mclasses\u001b[0m\u001b[1;33m:\u001b[0m\u001b[1;33m\u001b[0m\u001b[1;33m\u001b[0m\u001b[0m\n",
-      "\u001b[1;31mTclError\u001b[0m: unknown option \"-Lbs Produced\""
+      "Exception in Tkinter callback\nTraceback (most recent call last):\n  File \"C:\\Users\\KaminsTr\\Anaconda3\\envs\\workenv\\lib\\tkinter\\__init__.py\", line 1892, in __call__\n    return self.func(*args)\n  File \"C:\\Users\\KaminsTr\\Anaconda3\\envs\\workenv\\lib\\site-packages\\pandastable\\core.py\", line 1737, in statsViewer\n    self.sv = StatsViewer(table=self,parent=sf)\n  File \"C:\\Users\\KaminsTr\\Anaconda3\\envs\\workenv\\lib\\site-packages\\pandastable\\stats.py\", line 64, in __init__\n    self.setupGUI()\n  File \"C:\\Users\\KaminsTr\\Anaconda3\\envs\\workenv\\lib\\site-packages\\pandastable\\stats.py\", line 72, in setupGUI\n    formula = self.guessFormula()\n  File \"C:\\Users\\KaminsTr\\Anaconda3\\envs\\workenv\\lib\\site-packages\\pandastable\\stats.py\", line 122, in guessFormula\n    df = df.convert_objects(convert_numeric='force')\n  File \"C:\\Users\\KaminsTr\\Anaconda3\\envs\\workenv\\lib\\site-packages\\pandas\\core\\generic.py\", line 5465, in __getattr__\n    return object.__getattribute__(self, name)\nAttributeError: 'DataFrame' object has no attribute 'convert_objects'\n"
      ]
     }
    ],
@@ -227,7 +214,7 @@
     "todaysDate = todaysDate.strftime(\"%Y-%m-%d\")\n",
     "#passedDate = todaysDate\n",
     "passedDate = '2021-05-17'\n",
-    "tableData = narrowDates(pairedDate, passedDate)\n",
+    "tableData = narrowDates(pairedDate, passedDate, 'Tier 2')\n",
     "\n",
     "columnList = pairedDate.columns.values.tolist()\n",
     "\n",
@@ -295,10 +282,10 @@
     "\n",
     "#Draws frame for datatable\n",
     "datatableFrame = tk.Frame(root)\n",
-    "datatableFrame.grid(row = 5, column = 0, columnspan=7, sticky = 'WE')\n",
+    "datatableFrame.grid(row = 0, column = 7, rowspan= 4,sticky = 'WE')\n",
     "\n",
     "#Draws in Datatable\n",
-    "table = ps.Table(datatableFrame, tableData, showtoolbar= True)\n",
+    "table = ps.Table(datatableFrame, dataframe = tableData, showtoolbar= True)\n",
     "table.show()\n",
     "\n",
     "#Draws final column\n",
