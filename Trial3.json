@@ -26,7 +26,7 @@
  "cells": [
   {
    "cell_type": "code",
-   "execution_count": 26,
+   "execution_count": 36,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -49,7 +49,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 27,
+   "execution_count": 37,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -98,7 +98,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 28,
+   "execution_count": 38,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -149,7 +149,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 29,
+   "execution_count": 39,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -196,17 +196,9 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 30,
+   "execution_count": 40,
    "metadata": {},
-   "outputs": [
-    {
-     "output_type": "stream",
-     "name": "stderr",
-     "text": [
-      "Exception in Tkinter callback\nTraceback (most recent call last):\n  File \"C:\\Users\\KaminsTr\\Anaconda3\\envs\\workenv\\lib\\tkinter\\__init__.py\", line 1892, in __call__\n    return self.func(*args)\n  File \"C:\\Users\\KaminsTr\\Anaconda3\\envs\\workenv\\lib\\site-packages\\pandastable\\core.py\", line 1737, in statsViewer\n    self.sv = StatsViewer(table=self,parent=sf)\n  File \"C:\\Users\\KaminsTr\\Anaconda3\\envs\\workenv\\lib\\site-packages\\pandastable\\stats.py\", line 64, in __init__\n    self.setupGUI()\n  File \"C:\\Users\\KaminsTr\\Anaconda3\\envs\\workenv\\lib\\site-packages\\pandastable\\stats.py\", line 72, in setupGUI\n    formula = self.guessFormula()\n  File \"C:\\Users\\KaminsTr\\Anaconda3\\envs\\workenv\\lib\\site-packages\\pandastable\\stats.py\", line 122, in guessFormula\n    df = df.convert_objects(convert_numeric='force')\n  File \"C:\\Users\\KaminsTr\\Anaconda3\\envs\\workenv\\lib\\site-packages\\pandas\\core\\generic.py\", line 5465, in __getattr__\n    return object.__getattribute__(self, name)\nAttributeError: 'DataFrame' object has no attribute 'convert_objects'\n"
-     ]
-    }
-   ],
+   "outputs": [],
    "source": [
     "startUp()\n",
     "pairedDate = pairDateData(dataOEE_Page, dataTS_Page)\n",
@@ -250,7 +242,7 @@
     "\n",
     "#Builds frame for image\n",
     "graphFrame = tk.Frame(root)\n",
-    "graphFrame.grid(row = 0, column = 2, rowspan = 4, columnspan = 5) #Spans column 2 to 6 and row 0 to 3\n",
+    "graphFrame.grid(row = 0, column = 2, rowspan = 4, columnspan = 5, padx=20) #Spans column 2 to 6 and row 0 to 3\n",
     "\n",
     "#Generates graph for the frame and is capable of being redrawn\n",
     "fig = plt.Figure(figsize=(5, 4), dpi=100)\n",
@@ -290,7 +282,7 @@
     "\n",
     "#Draws final column\n",
     "exportLabel = tk.Label(root, text='Exporting:')\n",
-    "exportLabel.grid(row=0, column=7)\n",
+    "exportLabel.grid(row=5, column=0)\n",
     "\n",
     "\n",
     "#Activates Application\n",
