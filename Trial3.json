@@ -194,7 +194,7 @@
     "        beginningOfInterval = testDate - pd.Timedelta('7 day')\n",
     "    elif (userInput == 'Tier 5'): #If not month's end it will retrieve all prior data up to that point\n",
     "        beginningOfInterval = testDate.replace(day=1)\n",
-    "        print (beginningOfInterval)\n",
+    "        #print (beginningOfInterval)\n",
     "    else:\n",
     "        print('System Error: Invalid selection')\n",
     "\n",
